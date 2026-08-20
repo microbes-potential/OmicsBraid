@@ -1,0 +1,29 @@
+name: Bug report
+description: Report a reproducible OmicsBraid software defect
+title: "[Bug]: "
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: "Please remove sensitive or patient-identifying data before posting."
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What happened and what did you expect?
+    validations:
+      required: true
+  - type: textarea
+    id: reprex
+    attributes:
+      label: Minimal reproducible example
+      render: R
+    validations:
+      required: true
+  - type: textarea
+    id: session
+    attributes:
+      label: sessionInfo()
+      render: text
+    validations:
+      required: true
