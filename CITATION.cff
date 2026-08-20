@@ -1,0 +1,22 @@
+cff-version: 1.2.0
+message: "If you use OmicsBraid, please cite the software release and the accompanying methods article when available."
+title: "OmicsBraid: Covariance-Aware Inference of Cross-Omic Effect Trajectories"
+type: software
+version: 0.2.2
+date-released: 2026-08-20
+authors:
+  - given-names: "Adeel"
+    family-names: "Farooq"
+    affiliation: "University of Guelph"
+    email: "jhwanj9@gmail.com"
+repository-code: "https://github.com/microbes-potential/OmicsBraid"
+url: "https://microbes-potential.github.io/OmicsBraid/"
+license: MIT
+keywords:
+  - multi-omics
+  - effect size
+  - covariance
+  - heterogeneity
+  - trajectory
+  - bioinformatics
+  - R

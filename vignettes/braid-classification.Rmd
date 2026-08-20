@@ -1,0 +1,38 @@
+---
+title: "Braid classification"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{OmicsBraid braid classification}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>", eval = FALSE)
+```
+
+
+## Why a hierarchy is needed
+
+Braid labels are inferential summaries. OmicsBraid therefore separates global evidence, practical equivalence, direction, ordered trend, and sign inversion before assigning a class.
+
+| Pattern | Core interpretation |
+|---|---|
+| concordant increase/decrease | same supported direction across layers |
+| attenuation | same direction with supported weakening across the ordered layers |
+| amplification | same direction with supported strengthening across the ordered layers |
+| inversion | supported cross-layer sign reversal |
+| buffering | earlier effect with later practical equivalence |
+| emergence | earlier practical equivalence with later effect |
+| null-equivalent | practical equivalence supported across observed layers |
+| no detectable effect | global evidence is insufficient, without proof of equivalence |
+| uncertain | evidence/geometry does not justify a stable confirmatory label |
+| insufficient | too few usable layers |
+
+## Confirmatory and suggestive states
+
+The package intentionally distinguishes confirmatory labels from suggestive geometry. This prevents imprecise data from being forced into biologically attractive categories. Buffering and emergence are particularly dependent on equivalence power and should be reported with their status.
+
+## Inversion and cancellation
+
+A vector such as $(+1.0,+0.8,-1.0)$ can have a small signed consensus while still containing strong multivariate structure. OmicsBraid reports the consensus, omnibus evidence, heterogeneity, and braid geometry separately so cancellation is visible rather than silently averaged away.

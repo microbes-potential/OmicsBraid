@@ -1,0 +1,38 @@
+Package: OmicsBraid
+Type: Package
+Title: Covariance-Aware Inference of Cross-Omic Effect Trajectories
+Version: 0.2.2
+Description: A research-oriented statistical framework for comparing standardized
+    biological effects across matched omics layers. It estimates layer-specific
+    standardized effects, accounts for cross-omic dependence using matched-subject
+    bootstrap correlations, tests multivariate omnibus evidence, synthesizes
+    consensus effects with generalized least squares, quantifies cross-omic
+    heterogeneity, performs practical-equivalence testing, fits covariance-aware
+    ordered GLS effect trajectories, classifies hierarchical cross-layer effect
+    patterns with separate confirmatory and suggestive states, supports analytic
+    and subject-bootstrap confidence intervals for layer and consensus effects,
+    supports empirical matched-subject permutation and centered-bootstrap
+    calibration of omnibus and heterogeneity tests for non-Gaussian settings,
+    and creates evidence-forest and effect-braid visualizations. The package is
+    designed for analysis-ready bulk multi-omics data or externally estimated
+    summary statistics. It does not perform raw sequencing or mass-spectrometry
+    preprocessing.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Depends: R (>= 4.2.0)
+Imports:
+    ggplot2,
+    stats,
+    utils
+Suggests:
+    MultiAssayExperiment,
+    testthat (>= 3.0.0),
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
+Config/testthat/edition: 3
+Config/Needs/website: pkgdown
+Config/roxygen2/version: 8.1.0
+Authors@R: person("Adeel", "Farooq", email = "jhwanj9@gmail.com", role = c("aut", "cre"))
+URL: https://microbes-potential.github.io/OmicsBraid/, https://github.com/microbes-potential/OmicsBraid
+BugReports: https://github.com/microbes-potential/OmicsBraid/issues

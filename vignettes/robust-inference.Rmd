@@ -1,0 +1,49 @@
+---
+title: "Robust inference"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{OmicsBraid robust inference}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>", eval = FALSE)
+```
+
+
+## Recommended empirical procedures
+
+OmicsBraid v0.2.2 provides resampling-calibrated alternatives for settings where chi-square approximations may be sensitive to non-Gaussian data.
+
+### Global omnibus
+
+`omnibus_method = "permutation"` permutes the two-group labels at the **biological-subject level**, leaving each subject's cross-omic measurement vector linked.
+
+### Heterogeneity
+
+`heterogeneity_method = "null_shift_bootstrap"` imposes a fitted equal-effect null while retaining residual distributions, missingness, and matched-subject structure, then calibrates the covariance-aware heterogeneity statistic by stratified bootstrap.
+
+```{r}
+emp <- empirical_omics_tests(
+  data = obj,
+  group = "group",
+  reference = "Control",
+  comparison = "Disease",
+  effects = fit$effects,
+  entities = candidate_entities,
+  B = 1999,
+  seed = 1,
+  omnibus_method = "permutation",
+  heterogeneity_method = "null_shift_bootstrap",
+  p_adjust = "BH"
+)
+```
+
+## Confidence intervals
+
+Analytic intervals remain the v0.2.2 default. BCa layer intervals can be used as a sensitivity analysis when heavy tails/non-normality are a concern. Percentile bootstrap intervals are not the preferred robust sensitivity option based on the completed validation.
+
+## Genome-wide p-value resolution
+
+A finite empirical procedure with $B$ resamples cannot provide arbitrarily small p-values. If thousands of entities are screened, ensure the empirical resolution is compatible with the desired multiplicity correction. In the manuscript applications, continuous asymptotic p-values were used for genome-wide BH-FDR and empirical methods were pre-declared secondary robustness checks on selected candidates.

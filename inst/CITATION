@@ -1,0 +1,14 @@
+citHeader("To cite OmicsBraid in publications, please use:")
+
+bibentry(
+  bibtype = "Manual",
+  title = "OmicsBraid: Covariance-Aware Inference of Cross-Omic Effect Trajectories",
+  author = c(person("Adeel", "Farooq")),
+  year = "2026",
+  note = "R package version 0.2.2; frozen manuscript analysis release",
+  url = "https://github.com/microbes-potential/OmicsBraid",
+  textVersion = paste0(
+    "Farooq, Adeel (2026). OmicsBraid: Covariance-Aware ",
+    "Inference of Cross-Omic Effect Trajectories. R package version 0.2.2."
+  )
+)

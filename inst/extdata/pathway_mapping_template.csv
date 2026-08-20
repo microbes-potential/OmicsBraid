@@ -1,0 +1,5 @@
+omic,feature_id,pathway
+RNA,GeneA,Pathway_1
+RNA,GeneB,Pathway_1
+Protein,GeneA,Pathway_1
+Metabolite,Met1,Pathway_1

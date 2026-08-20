@@ -1,0 +1,67 @@
+---
+title: "Complete publication workflow"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{OmicsBraid complete publication workflow}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>", eval = FALSE)
+```
+
+
+## 1. Pre-specify the analysis
+
+Before inspecting OmicsBraid outcomes, define the biological contrast, effect direction, ordered omic layers, inclusion/coverage rules, equivalence margin, trajectory margin, and multiplicity-control strategy.
+
+## 2. Prepare analysis-ready assays
+
+Use assay-appropriate normalization/QC outside OmicsBraid. Preserve sample identifiers and genuine missingness.
+
+## 3. Construct and validate the object
+
+```{r}
+obj <- omics_braid_data(
+  assays = list(RNA = rna, Protein = protein, Phosphoprotein = phospho),
+  metadata = metadata,
+  sample_id = "sample_id"
+)
+validate_omics_braid_data(obj)
+```
+
+## 4. Run the primary analysis
+
+```{r}
+fit <- run_omics_braid(
+  obj,
+  group = "group",
+  reference = "WT",
+  comparison = "Mutant",
+  omic_order = c("RNA", "Protein", "Phosphoprotein"),
+  bootstrap_B = 300,
+  bootstrap_shrinkage = 0.05,
+  ci_method = "analytic",
+  integrated_ci_method = "analytic",
+  equivalence_margin = 0.30,
+  trajectory_margin = 0.15,
+  pattern_draws = 1000,
+  seed = 1
+)
+```
+
+## 5. Build auditable tables
+
+```{r}
+master <- braid_results_table(fit)
+write_omics_braid(fit, "omicsbraid_output", save_plots = TRUE, top_n = 30)
+```
+
+## 6. Use empirical calibration appropriately
+
+For targeted robustness checks, use subject-level permutation omnibus and null-shift bootstrap heterogeneity. Do not describe post-screening empirical results as independent genome-wide confirmation.
+
+## 7. Report multiple inferential layers
+
+For key entities report layer-specific effects with intervals, GLS consensus, omnibus evidence, `Q_omics`, braid pattern/status, and any empirical sensitivity result. Avoid reporting a braid label without the underlying effects.

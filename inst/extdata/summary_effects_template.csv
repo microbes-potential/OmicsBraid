@@ -1,0 +1,4 @@
+entity,omic,effect,se,conf_low,conf_high,p_value
+Pathway_A,RNA,1.20,0.20,0.808,1.592,1.97e-09
+Pathway_A,Protein,0.80,0.23,0.349,1.251,0.00050
+Pathway_A,Metabolite,-0.90,0.25,-1.390,-0.410,0.00032

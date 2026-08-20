@@ -1,0 +1,122 @@
+---
+title: "OmicsBraid: Cross-Omics Effect Inference"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{OmicsBraid: Cross-Omics Effect Inference}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
+library(OmicsBraid)
+```
+
+## Why OmicsBraid?
+
+Multi-omics studies frequently summarize each layer independently and then describe
+RNA/protein/metabolite agreement qualitatively. OmicsBraid makes that comparison
+explicit by estimating standardized effects with uncertainty, accounting for
+matched-subject dependence, testing joint multi-omic evidence, quantifying
+cross-layer heterogeneity, testing practical equivalence, and evaluating ordered
+effect trajectories.
+
+Version 0.2.2 retains the hierarchical inference introduced in v0.1.9, deliberately distinguishes **absence of detected evidence** from
+**evidence of practical equivalence**, and separates confirmed braid patterns
+from suggestive effect geometry.
+
+## Simulate known biology
+
+```{r simulate}
+sim <- simulate_braid_data(n_per_group = 60, rho = 0.5, seed = 42)
+sim$data
+```
+
+## Run the full workflow
+
+For a quick vignette we use fewer bootstrap and Monte Carlo replicates than are
+recommended for final analyses. Both the equivalence margin and the trajectory
+margin are scientific SESOIs and should be justified in a real study.
+
+```{r fit}
+fit <- run_omics_braid(
+  sim$data,
+  group = "group",
+  reference = "Control",
+  comparison = "Disease",
+  omic_order = c("RNA", "Protein", "Metabolite"),
+  bootstrap_B = 150,
+  ci_method = "percentile",
+  integrated_ci_method = "percentile",
+  ci_min_boot = 75,
+  pattern_draws = 500,
+  equivalence_margin = 0.30,
+  trajectory_margin = 0.15,
+  seed = 42
+)
+fit
+```
+
+## Layer-specific and integrated inference
+
+```{r tables}
+fit$effects
+fit$integrated
+fit$equivalence
+fit$trend
+fit$classification
+```
+
+The integrated table separates the multivariate all-zero omnibus test from the
+GLS consensus effect. This is important when opposite layer effects cancel in the
+consensus.
+
+
+## Robust interval reporting
+
+Version 0.2.2 can display matched subject-bootstrap intervals without changing the analytic SE/p-value inferential machinery. `fit$effects` and `fit$integrated` retain analytic interval columns alongside the selected percentile bootstrap intervals, while `fit$effect_intervals` and `fit$consensus_intervals` contain bootstrap diagnostics. BCa layer intervals are available for targeted/prefiltered analyses through `bootstrap_effect_intervals(..., method = "bca")`.
+
+```{r robust-ci}
+head(fit$effect_intervals)
+head(fit$consensus_intervals)
+```
+
+## Ordered GLS trend test
+
+`fit$trend` reports a covariance-aware slope over the prespecified omic order.
+For same-direction layer effects, OmicsBraid only calls attenuation or
+amplification when the slope exceeds the user-specified practical trajectory
+margin with inferential support. Otherwise the broader concordant direction can
+be retained with `pattern_status = "direction_confirmed"`.
+
+## Null-like outcomes
+
+`null_equivalent` means all observed layers passed practical-equivalence testing.
+`no_detectable_effect` means the joint-null omnibus test was not rejected, but
+the data were not precise enough to establish equivalence. These are different
+scientific conclusions.
+
+## Evidence Forest
+
+```{r forest, fig.width=7, fig.height=4.5}
+plot_evidence_forest(fit, "inversion")
+```
+
+## Effect Braid
+
+```{r braid, fig.width=7, fig.height=4.5}
+plot_effect_braid(fit, "inversion")
+```
+
+## Interpretation
+
+A significant `Q_omics` indicates that the effect vector is poorly summarized by
+a single common effect after accounting for estimated sampling covariance. The
+I2-like index is descriptive and has no universal low/moderate/high cutoffs in
+this development version.
+
+Braid order is descriptive/inferential, not causal. A pattern such as `inversion`
+describes supported effects across a prespecified layer order; it does not prove
+molecular propagation. Likewise, `suggestive_pattern` describes effect geometry
+when confirmatory precision is insufficient and must not be reported as a
+confirmed result.

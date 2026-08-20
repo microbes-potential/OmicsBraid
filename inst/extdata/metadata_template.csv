@@ -1,0 +1,5 @@
+sample_id,group,age,sex,batch
+S001,Control,40,F,B1
+S002,Control,51,M,B1
+S003,Disease,45,F,B2
+S004,Disease,49,M,B2
