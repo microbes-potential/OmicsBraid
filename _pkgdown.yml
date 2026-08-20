@@ -1,0 +1,72 @@
+url: https://microbes-potential.github.io/OmicsBraid/
+
+template:
+  bootstrap: 5
+
+home:
+  title: "OmicsBraid"
+  description: "Covariance-aware inference of cross-omic effect trajectories in matched multi-omics studies."
+
+navbar:
+  structure:
+    left: [intro, reference, articles, news]
+    right: [search, github]
+  components:
+    intro:
+      text: Get started
+      href: articles/getting-started.html
+    articles:
+      text: Articles
+      menu:
+      - text: Statistical framework
+        href: articles/statistical-framework.html
+      - text: Braid classification
+        href: articles/braid-classification.html
+      - text: Robust inference
+        href: articles/robust-inference.html
+      - text: Complete workflow
+        href: articles/complete-workflow.html
+    github:
+      icon: fab fa-github
+      href: https://github.com/microbes-potential/OmicsBraid
+      aria-label: GitHub
+
+reference:
+- title: Complete workflows
+  contents:
+  - run_omics_braid
+  - run_omics_braid_summary
+  - braid_results_table
+  - write_omics_braid
+- title: Data input and harmonization
+  contents:
+  - omics_braid_data
+  - as_omics_braid_data
+  - validate_omics_braid_data
+  - read_omics_braid
+  - harmonize_entities
+  - score_pathways
+  - orient_omics
+- title: Effect estimation and covariance
+  contents:
+  - estimate_effects
+  - bootstrap_effect_covariance
+  - bootstrap_effect_intervals
+  - bootstrap_consensus_intervals
+- title: Cross-omic inference
+  contents:
+  - integrate_effects
+  - empirical_omics_tests
+  - test_equivalence
+  - test_braid_trend
+  - classify_braids
+  - braid_pattern_probabilities
+- title: Visualization
+  contents:
+  - plot_evidence_forest
+  - plot_effect_braid
+  - plot_concordance_map
+  - plot_braid_heatmap
+- title: Simulation
+  contents:
+  - simulate_braid_data
