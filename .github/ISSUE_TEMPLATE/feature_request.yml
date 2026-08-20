@@ -1,0 +1,20 @@
+name: Feature request
+description: Propose a new software capability
+title: "[Feature]: "
+labels: [enhancement]
+body:
+  - type: textarea
+    id: need
+    attributes:
+      label: Scientific or software need
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed behavior
+    validations:
+      required: true
+  - type: markdown
+    attributes:
+      value: "Statistical-core changes require a new version and validation; v0.2.2 will remain frozen."
