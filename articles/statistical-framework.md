@@ -1,0 +1,70 @@
+# Statistical framework
+
+## Layer-specific effects
+
+For entity $`j`$ across $`K`$ ordered molecular layers, OmicsBraid
+estimates a standardized effect vector
+
+``` math
+\boldsymbol{\delta}_j=(\delta_{j1},\ldots,\delta_{jK})^T,
+```
+
+using Hedges’ g and its sampling uncertainty within each layer.
+
+## Matched-subject covariance
+
+When the same biological subjects contribute to multiple omic layers,
+layer-specific estimators are dependent. OmicsBraid estimates
+cross-layer correlation by stratified matched-subject bootstrap and
+forms
+
+``` math
+V=D_{SE}R_{bootstrap}D_{SE}.
+```
+
+## GLS consensus
+
+The covariance-aware common effect is
+
+``` math
+\hat\theta=\frac{\mathbf{1}^TV^{-1}\boldsymbol{\delta}}{\mathbf{1}^TV^{-1}\mathbf{1}}.
+```
+
+This is a summary of the common component, not a substitute for
+multivariate evidence.
+
+## Omnibus test
+
+The omnibus question is whether the entire effect vector is zero. This
+remains informative when opposite signs cancel in a pooled signed
+effect.
+
+## Cross-omic heterogeneity
+
+OmicsBraid evaluates deviation from the fitted common effect with
+
+``` math
+Q_{omics}=(\boldsymbol{\delta}-\hat\theta\mathbf{1})^TV^{-1}(\boldsymbol{\delta}-\hat\theta\mathbf{1}).
+```
+
+The accompanying I2-like quantity is descriptive; v0.2.2 does not impose
+universal low/moderate/high cutoffs.
+
+## Practical equivalence
+
+TOST tests are used to support practical equivalence relative to a
+scientifically chosen smallest effect size of interest. A conventional
+$`p>0.05`$ is not treated as evidence of equivalence.
+
+## Ordered trajectory
+
+For a prespecified layer index $`L`$, the covariance-aware trend model
+is
+
+``` math
+\boldsymbol{\delta}=\beta_0+\beta_1L+\epsilon,\qquad \epsilon\sim N(0,V).
+```
+
+Attenuation/amplification require same-direction geometry plus a
+meaningful, supported ordered trend relative to the user-specified
+trajectory margin.
